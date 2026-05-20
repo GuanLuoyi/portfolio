@@ -2322,6 +2322,12 @@ button {
 }
 
 @media (max-width: 640px) {
+  .mobile-artboard.parallax-layer {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
   .preloader-content {
     gap: 16px;
     transform: translateY(4dvh);
@@ -2367,7 +2373,7 @@ button {
   }
 
   .nav-link-list .link-button {
-    width: 20.36cqw;
+    width: max-content;
     text-align: right;
   }
 
