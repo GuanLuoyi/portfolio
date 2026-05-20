@@ -564,7 +564,7 @@ function DesktopHomepage({ language }: { language: Language }) {
 function MobileHomepage({ language }: { language: Language }) {
   return (
     <section
-      className="portfolio-artboard mobile-artboard parallax-layer relative hidden aspect-[393/852] h-dvh max-h-dvh w-auto max-w-screen overflow-hidden bg-portfolio-paper max-[640px]:block"
+      className="portfolio-artboard mobile-artboard relative hidden aspect-[393/852] h-dvh max-h-dvh w-auto max-w-screen overflow-hidden bg-portfolio-paper max-[640px]:block"
       id="home-mobile"
     >
       <MobileContent language={language} />

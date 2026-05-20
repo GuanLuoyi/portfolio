@@ -2322,6 +2322,11 @@ button {
 }
 
 @media (max-width: 640px) {
+  .mobile-artboard {
+    height: 100svh;
+    max-height: 100svh;
+  }
+
   .mobile-artboard.parallax-layer {
     opacity: 1;
     transform: none;
