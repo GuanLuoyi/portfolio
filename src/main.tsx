@@ -496,8 +496,8 @@ function MobileContent({ language }: { language: Language }) {
   const content = copy[language].hero;
 
   return (
-    <section className="absolute left-0 top-[24.41%] z-10 w-full px-[6.11cqw]">
-      <div className="flex flex-col items-start justify-center gap-[1.41cqh]">
+    <section className="absolute left-0 top-[20.9%] z-10 w-full px-[6.11cqw]">
+      <div className="flex flex-col items-start justify-center gap-[1.05cqh]">
         <Chip className="mobile-home-tag">{content.role}</Chip>
         <Chip className="mobile-home-tag bread-tag" disabled>
           {content.bread}
@@ -506,7 +506,7 @@ function MobileContent({ language }: { language: Language }) {
 
       <BlurText
         animateBy="words"
-        className="hero-blur-title mt-[1.88cqh] max-w-[87.79cqw] font-montserrat text-[7.12cqw] font-normal leading-[1.6]"
+        className="hero-blur-title mobile-hero-headline mt-[1.45cqh] max-w-[87.79cqw] font-montserrat text-[7.12cqw] font-normal leading-[1.6]"
         delay={75}
         direction="bottom"
         stepDuration={0.38}
@@ -515,7 +515,7 @@ function MobileContent({ language }: { language: Language }) {
 
       <BlurText
         animateBy="words"
-        className="hero-blur-title mt-[1.88cqh] max-w-[87.79cqw] font-montserrat text-[3.05cqw] font-normal leading-[1.6]"
+        className="hero-blur-title mobile-hero-bio mt-[1.45cqh] max-w-[87.79cqw] font-montserrat text-[3.05cqw] font-normal leading-[1.6]"
         delay={32}
         direction="bottom"
         rootMargin="-8% 0px"

@@ -2424,11 +2424,21 @@ button {
   .portfolio-tag {
     border-radius: 2.04cqw;
     padding: 0.94cqh 6.11cqw;
-    font-size: 3.05cqw;
+    font-size: clamp(13px, 3.31cqw, 15px);
   }
 
   .mobile-home-tag {
     width: fit-content;
+  }
+
+  .mobile-hero-headline {
+    font-size: 7.12cqw;
+    line-height: 1.6;
+  }
+
+  .mobile-hero-bio {
+    font-size: clamp(14px, 3.56cqw, 15px);
+    line-height: 1.55;
   }
 
   .works-grid {
