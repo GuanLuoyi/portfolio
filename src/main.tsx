@@ -496,7 +496,7 @@ function MobileContent({ language }: { language: Language }) {
   const content = copy[language].hero;
 
   return (
-    <section className="absolute left-0 top-[20.9%] z-10 w-full px-[6.11cqw]">
+    <section className="mobile-hero-copy absolute left-0 top-[20.9%] z-10 w-full px-[6.11cqw]">
       <div className="flex flex-col items-start justify-center gap-[1.05cqh]">
         <Chip className="mobile-home-tag">{content.role}</Chip>
         <Chip className="mobile-home-tag bread-tag" disabled>

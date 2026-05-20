@@ -2325,6 +2325,7 @@ button {
   .mobile-artboard {
     height: 100svh;
     max-height: 100svh;
+    overflow: visible;
   }
 
   .mobile-artboard.parallax-layer {
@@ -2429,6 +2430,18 @@ button {
 
   .mobile-home-tag {
     width: fit-content;
+  }
+
+  .mobile-hero-copy {
+    left: 50%;
+    width: 100vw;
+    padding-right: 16px;
+    padding-left: 16px;
+    transform: translateX(-50%);
+  }
+
+  .mobile-hero-copy .hero-blur-title {
+    max-width: 100%;
   }
 
   .mobile-hero-headline {
