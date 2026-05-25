@@ -621,19 +621,25 @@ function MobileHomepage({ language }: { language: Language }) {
 }
 
 function WorkCard({
+  confidential,
   description,
   href,
   image,
   index,
   onOpen,
+  overlayBody,
+  overlayTitle,
   title,
   visibleRows,
 }: {
+  confidential?: boolean;
   description: string;
   href?: string;
   image: string;
   index: number;
   onOpen?: () => void;
+  overlayBody?: string;
+  overlayTitle?: string;
   title: string;
   visibleRows: Set<number>;
 }) {
@@ -656,11 +662,23 @@ function WorkCard({
     event.currentTarget.style.setProperty("--tilt-x", "0deg");
     event.currentTarget.style.setProperty("--tilt-y", "0deg");
   };
+  const hasOverlay = Boolean(overlayTitle && overlayBody);
 
   const content = (
     <>
-      <div className="work-card-image-wrap" onPointerLeave={resetTilt} onPointerMove={handlePointerMove}>
+      <div
+        className={`work-card-image-wrap${hasOverlay ? " has-work-overlay" : ""}${confidential ? " is-confidential" : ""}`}
+        onPointerLeave={resetTilt}
+        onPointerMove={handlePointerMove}
+        tabIndex={hasOverlay ? 0 : undefined}
+      >
         <img className="work-card-image" src={image} alt={`${title} project preview`} loading="lazy" />
+        {hasOverlay && (
+          <div className="work-card-overlay" aria-hidden="true">
+            <strong>{overlayTitle}</strong>
+            <p>{overlayBody}</p>
+          </div>
+        )}
       </div>
       <div className="work-card-text">
         <h3>{title}</h3>
@@ -706,10 +724,18 @@ function WorksPage({
   const worksGridRef = useRef<HTMLDivElement | null>(null);
   const content = copy[language];
   const workItems = content.workItems.map(([title, description], index) => ({
+    confidential: index === 6,
     description,
     href: index === 0 ? "#/works/womens-health" : index === 1 ? "#/works/recovery-strain" : undefined,
     image: workImages[index],
     onOpen: index === 0 ? onOpenWomensHealth : index === 1 ? onOpenRecoveryStrain : undefined,
+    overlayBody:
+      index === 6
+        ? "This work is protected by NDA and cannot be shared publicly."
+        : index > 1
+          ? "Currently documenting the process."
+          : undefined,
+    overlayTitle: index === 6 ? "Confidential Work" : index > 1 ? "Case Study Coming Soon" : undefined,
     title,
   }));
 
