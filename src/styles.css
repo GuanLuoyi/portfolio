@@ -239,22 +239,20 @@ button {
   padding: 4.44dvh 14.58% 0;
   isolation: isolate;
   pointer-events: none;
-  transform: translateZ(0);
-  backface-visibility: hidden;
 }
 
 .site-nav::before {
   position: absolute;
-  inset: 0;
+  left: 0;
+  top: 0;
+  right: 0;
   z-index: 0;
-  min-height: clamp(72px, 10dvh, 120px);
+  height: clamp(72px, 10dvh, 120px);
   content: "";
-  background: rgb(242 239 232 / 0.2);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgb(242 239 232 / 0.42);
+  backdrop-filter: blur(16px) saturate(135%);
+  -webkit-backdrop-filter: blur(16px) saturate(135%);
   pointer-events: none;
-  transform: translateZ(0);
-  will-change: transform;
 }
 
 .site-nav > * {
@@ -807,6 +805,43 @@ button {
   font-size: 20px;
 }
 
+.recovery-overview-metrics-image {
+  display: block;
+  width: min(100%, 329px);
+  height: auto;
+  margin-bottom: 28px;
+}
+
+.recovery-question-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.case-text-block .recovery-question-row p {
+  margin-top: 0;
+}
+
+.recovery-pain-grid {
+  padding-inline: 14.7%;
+}
+
+.recovery-pain-svg {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.recovery-reflection h3 {
+  max-width: 1350px;
+  background: linear-gradient(90deg, #0544ff 0%, #2b9f3b 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
 .case-principles {
   display: grid;
   gap: 28px;
@@ -856,11 +891,13 @@ button {
 .case-split {
   display: grid;
   grid-template-columns: minmax(300px, 405px) minmax(0, 625px);
-  gap: 80px;
+  gap: 40px;
   align-items: center;
   justify-content: center;
-  margin-top: 64px;
-  padding-inline: 140px;
+  width: min(1350px, calc(100vw - 48px));
+  margin: 64px 0 0 50%;
+  padding-inline: clamp(40px, 7.29vw, 140px);
+  translate: -50% 0;
 }
 
 .case-split:has(+ .case-dark-band) {
@@ -872,7 +909,11 @@ button {
 }
 
 .case-split.is-wide {
-  grid-template-columns: minmax(0, 500px) minmax(0, 1fr);
+  grid-template-columns: minmax(300px, 405px) minmax(0, 625px);
+}
+
+.case-split.is-reversed.is-wide {
+  grid-template-columns: minmax(0, 625px) minmax(300px, 405px);
 }
 
 .case-split .case-image {
@@ -945,6 +986,66 @@ button {
 
 .case-dark-band .case-split .case-image {
   margin-top: 0;
+}
+
+.recovery-dark-band {
+  background: #1d1d1e;
+  color: var(--color-bg);
+}
+
+.recovery-dark-band .recovery-principles {
+  position: relative;
+  padding-top: 0;
+  padding-left: 0;
+}
+
+.recovery-dark-band .recovery-principles::before {
+  content: "";
+  position: absolute;
+  top: 112px;
+  bottom: 80px;
+  left: 0;
+  width: 6px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #0544ff 0%, #27a747 100%);
+}
+
+.recovery-dark-band .case-principles h2,
+.recovery-dark-band .case-principle h3,
+.recovery-dark-band .case-principle p {
+  color: var(--color-bg);
+}
+
+.recovery-dark-band .recovery-principles .case-principle {
+  grid-template-columns: 1fr;
+  margin-left: 46px;
+}
+
+.recovery-stacked-visual .case-image {
+  max-width: 1080px;
+  margin-top: 40px;
+}
+
+.recovery-stacked-visual.is-narrow .case-image {
+  max-width: 785px;
+}
+
+.recovery-stacked-visual p {
+  max-width: 1070px;
+}
+
+@media (max-width: 1280px) and (min-width: 1025px) {
+  .case-split,
+  .case-split.is-reversed,
+  .case-split.is-wide {
+    grid-template-columns: minmax(300px, 405px) minmax(320px, 1fr);
+    gap: 48px;
+    padding-inline: 0;
+  }
+
+  .case-split.is-reversed {
+    grid-template-columns: minmax(320px, 1fr) minmax(300px, 405px);
+  }
 }
 
 .next-project {
@@ -2500,7 +2601,10 @@ button {
   .case-split.is-wide {
     grid-template-columns: 1fr;
     gap: 28px;
+    width: 100%;
+    margin-left: 0;
     padding-inline: 0;
+    translate: none;
   }
 
   .case-split > .case-image {
@@ -2555,17 +2659,17 @@ button {
   .case-text-block h2,
   .case-principles h2,
   .next-project h2 {
-    font-size: 36px;
-    line-height: 1.12;
+    font-size: 30px;
+    line-height: 1.18;
   }
 
   .case-text-block h3 {
     margin-top: 20px;
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .case-text-block.is-feature-heading h2 {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .case-text-block p {
@@ -2585,6 +2689,15 @@ button {
     text-align: left;
   }
 
+  .recovery-pain-grid .case-pain-item {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .recovery-pain-grid .case-pain-item p {
+    max-width: 300px;
+  }
+
   .case-pain-icon {
     height: 54px;
     max-width: min(100%, 220px);
@@ -2592,6 +2705,37 @@ button {
 
   .case-pain-item h3 {
     font-size: 20px;
+  }
+
+  .recovery-overview-metrics-image {
+    width: min(100%, 240px);
+    margin-bottom: 20px;
+  }
+
+  .recovery-question-row {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-top: 28px;
+  }
+
+  .recovery-dark-band .recovery-principles {
+    padding-left: 0;
+  }
+
+  .recovery-dark-band .recovery-principles::before {
+    top: 64px;
+    bottom: 80px;
+    width: 6px;
+  }
+
+  .recovery-dark-band .recovery-principles .case-principle {
+    margin-left: 36px;
+  }
+
+  .recovery-stacked-visual .case-image,
+  .recovery-stacked-visual.is-narrow .case-image {
+    max-width: 100%;
+    margin-top: 28px;
   }
 
   .case-competitors {
@@ -2637,7 +2781,13 @@ button {
   }
 
   .case-principle h3 {
-    font-size: 22px;
+    font-size: 20px;
+    line-height: 1.45;
+  }
+
+  .case-outcomes h3 {
+    font-size: 30px;
+    line-height: 1.28;
   }
 
   .case-split h2 {

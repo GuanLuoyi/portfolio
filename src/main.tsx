@@ -47,6 +47,27 @@ import womensHealthPrinciplePredictIcon from "./assets/works-womens-health/princ
 import womensHealthPrincipleInformIcon from "./assets/works-womens-health/principle-inform-icon.png";
 import womensHealthPrincipleMeetIcon from "./assets/works-womens-health/principle-meet-icon.png";
 import womensHealthPrincipleActionableIcon from "./assets/works-womens-health/principle-actionable-icon.png";
+import recoveryHero from "./assets/works-recovery-strain/hero@2x.png";
+import recoveryOverviewMetrics from "./assets/works-recovery-strain/overview-metrics.png";
+import recoveryPainMetricOverload from "./assets/works-recovery-strain/pain-metric-overload.svg";
+import recoveryPainGenericAdvice from "./assets/works-recovery-strain/pain-generic-advice.svg";
+import recoveryPainInvisibleFatigue from "./assets/works-recovery-strain/pain-invisible-fatigue.svg";
+import recoveryPainUnsustainableRoutines from "./assets/works-recovery-strain/pain-unsustainable-routines.svg";
+import recoverySolutionArchitecture from "./assets/works-recovery-strain/solution-architecture.png";
+import recoveryTodayView from "./assets/works-recovery-strain/today-view.png";
+import recoveryAdaptiveStates from "./assets/works-recovery-strain/adaptive-states.png";
+import recoveryTodayRecovery from "./assets/works-recovery-strain/today-recovery.png";
+import recoveryTodayStrain from "./assets/works-recovery-strain/today-strain.png";
+import recoveryReadiness from "./assets/works-recovery-strain/recovery-readiness.png";
+import recoveryGuidance from "./assets/works-recovery-strain/recovery-guidance.png";
+import recoveryDrivers from "./assets/works-recovery-strain/recovery-drivers.png";
+import recoveryTrends from "./assets/works-recovery-strain/recovery-trends.png";
+import recoveryStrainReadiness from "./assets/works-recovery-strain/strain-readiness.png";
+import recoveryStrainGuidance from "./assets/works-recovery-strain/strain-guidance.png";
+import recoveryStrainDrivers from "./assets/works-recovery-strain/strain-drivers.png";
+import recoveryActivityLog from "./assets/works-recovery-strain/activity-log.png";
+import recoveryStrainTrend from "./assets/works-recovery-strain/strain-trend.png";
+import recoveryFeedbackLoop from "./assets/works-recovery-strain/feedback-loop.png";
 import playgroundFrame from "./assets/playground/playground frame.png";
 import playgroundArrow from "./assets/playground/arrow.svg";
 import playgroundClip from "./assets/playground/clip.svg";
@@ -65,7 +86,7 @@ import aboutToast from "./assets/about/about-toast.svg";
 
 type Language = "en" | "zh";
 type NavTarget = "home" | "works" | "playground" | "about" | "contact";
-type View = "home" | "about" | "womens-health";
+type View = "home" | "about" | "womens-health" | "recovery-strain";
 
 const copy = {
   en: {
@@ -274,6 +295,32 @@ const womensHealthImageAssets = {
     meet: womensHealthPrincipleMeetIcon,
     actionable: womensHealthPrincipleActionableIcon,
   },
+};
+
+const recoveryStrainImageAssets = {
+  hero: recoveryHero,
+  overviewMetrics: recoveryOverviewMetrics,
+  painIcons: [
+    recoveryPainMetricOverload,
+    recoveryPainGenericAdvice,
+    recoveryPainInvisibleFatigue,
+    recoveryPainUnsustainableRoutines,
+  ],
+  solutionArchitecture: recoverySolutionArchitecture,
+  todayView: recoveryTodayView,
+  adaptiveStates: recoveryAdaptiveStates,
+  todayRecovery: recoveryTodayRecovery,
+  todayStrain: recoveryTodayStrain,
+  recoveryReadiness,
+  recoveryGuidance,
+  recoveryDrivers,
+  recoveryTrends,
+  strainReadiness: recoveryStrainReadiness,
+  strainGuidance: recoveryStrainGuidance,
+  strainDrivers: recoveryStrainDrivers,
+  activityLog: recoveryActivityLog,
+  strainTrend: recoveryStrainTrend,
+  feedbackLoop: recoveryFeedbackLoop,
 };
 const playgroundAssets = {
   grid: playgroundFrame,
@@ -646,15 +693,23 @@ function WorkCard({
   );
 }
 
-function WorksPage({ language, onOpenWomensHealth }: { language: Language; onOpenWomensHealth: () => void }) {
+function WorksPage({
+  language,
+  onOpenRecoveryStrain,
+  onOpenWomensHealth,
+}: {
+  language: Language;
+  onOpenRecoveryStrain: () => void;
+  onOpenWomensHealth: () => void;
+}) {
   const [visibleRows, setVisibleRows] = useState<Set<number>>(new Set());
   const worksGridRef = useRef<HTMLDivElement | null>(null);
   const content = copy[language];
   const workItems = content.workItems.map(([title, description], index) => ({
     description,
-    href: index === 0 ? "#/works/womens-health" : undefined,
+    href: index === 0 ? "#/works/womens-health" : index === 1 ? "#/works/recovery-strain" : undefined,
     image: workImages[index],
-    onOpen: index === 0 ? onOpenWomensHealth : undefined,
+    onOpen: index === 0 ? onOpenWomensHealth : index === 1 ? onOpenRecoveryStrain : undefined,
     title,
   }));
 
@@ -1136,6 +1191,278 @@ function AboutPage({ language }: { language: Language }) {
   );
 }
 
+function RecoveryStrainPage({ language, onNextProject }: { language: Language; onNextProject: () => void }) {
+  const content = recoveryStrainCaseCopy[language];
+
+  useEffect(() => {
+    const revealElements = Array.from(document.querySelectorAll<HTMLElement>(".case-reveal"));
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      revealElements.forEach((element) => element.classList.add("is-visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        rootMargin: "0px 0px -10% 0px",
+        threshold: 0.12,
+      },
+    );
+
+    revealElements.forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
+  }, [language]);
+
+  return (
+    <section className="case-page recovery-strain-page">
+      <div className="case-inner">
+        <SectionLabel className="case-heading">{content.label}</SectionLabel>
+
+        <div className="case-hero case-reveal">
+          <img src={recoveryStrainImageAssets.hero} alt="Recovery and Strain interface states preview" />
+        </div>
+
+        <section className="case-overview recovery-overview case-reveal">
+          <div className="case-meta-grid">
+            <div>
+              <span>{content.overview.categoryLabel}</span>
+              <p>{content.overview.category}</p>
+            </div>
+            <div>
+              <span>{content.overview.yearLabel}</span>
+              <p>{content.overview.year}</p>
+            </div>
+            <div>
+              <span>{content.overview.roleLabel}</span>
+              <p>{content.overview.role}</p>
+            </div>
+            <div>
+              <span>{content.overview.deliverablesLabel}</span>
+              <p>{content.overview.deliverables}</p>
+            </div>
+            <div>
+              <span>{content.overview.creditLabel}</span>
+              <p>{content.overview.credit}</p>
+            </div>
+          </div>
+          <div className="case-intro">
+            <img
+              className="recovery-overview-metrics-image"
+              src={recoveryStrainImageAssets.overviewMetrics}
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+            />
+            <h1>{content.overview.title}</h1>
+            <p>{content.overview.body}</p>
+          </div>
+        </section>
+
+        <section className="case-text-block case-reveal">
+          <h2>{content.problemTitle}</h2>
+          <h3>{content.problemSubtitle}</h3>
+          <div className="recovery-question-row">
+            {content.questions.map((question) => (
+              <p key={question}>{question}</p>
+            ))}
+          </div>
+        </section>
+
+        <section className="case-pain-grid recovery-pain-grid case-reveal" aria-label={content.painsLabel}>
+          {content.pains.map(([title, quote], index) => (
+            <div className="case-pain-item" key={title}>
+              <img
+                className="case-pain-icon recovery-pain-svg"
+                src={recoveryStrainImageAssets.painIcons[index]}
+                alt=""
+                loading="lazy"
+              />
+              <h3>{title}</h3>
+              <p>{quote}</p>
+            </div>
+          ))}
+        </section>
+
+        <div className="case-dark-band recovery-dark-band">
+          <div className="case-dark-inner">
+            <section className="case-principles recovery-principles case-reveal" aria-label={content.principlesLabel}>
+              <h2>{content.principlesTitle}</h2>
+              {content.principles.map(([title, description]) => (
+                <div className="case-principle" key={title}>
+                  <div>
+                    <h3>{title}</h3>
+                    <p>{description}</p>
+                  </div>
+                </div>
+              ))}
+            </section>
+
+            <section className="case-text-block case-reveal">
+              <h2>{content.solutionTitle}</h2>
+              <h3>{content.solutionSubtitle}</h3>
+              <p>{content.solutionBody}</p>
+            </section>
+            <CaseImage
+              src={recoveryStrainImageAssets.solutionArchitecture}
+              alt="Recovery and Strain decision-making system architecture"
+            />
+
+            <section className="case-text-block case-reveal is-feature-heading">
+              <h2>{content.todayTitle}</h2>
+              <p>{content.todayBody}</p>
+            </section>
+            <CaseImage src={recoveryStrainImageAssets.todayView} alt="Recovery and strain today view screens" />
+
+            <section className="case-text-block case-reveal is-summary">
+              <p>{content.todaySummary}</p>
+            </section>
+
+            <section className="case-split case-reveal">
+              <CaseImage src={recoveryStrainImageAssets.adaptiveStates} alt="Adaptive strain and recovery states" />
+              <div>
+                <h2>{content.sections.adaptive[0]}</h2>
+                <p>{content.sections.adaptive[1]}</p>
+              </div>
+            </section>
+
+            <section className="case-split case-reveal is-reversed">
+              <div>
+                <h2>{content.sections.todayRecovery[0]}</h2>
+                <p>{content.sections.todayRecovery[1]}</p>
+              </div>
+              <CaseImage src={recoveryStrainImageAssets.todayRecovery} alt="Recovery state card with AI guidance" />
+            </section>
+
+            <section className="case-split case-reveal">
+              <CaseImage src={recoveryStrainImageAssets.todayStrain} alt="Activity strain recommendation card" />
+              <div>
+                <h2>{content.sections.todayStrain[0]}</h2>
+                <p>{content.sections.todayStrain[1]}</p>
+              </div>
+            </section>
+
+            <section className="case-text-block case-reveal is-feature-heading">
+              <h2>{content.recoveryTitle}</h2>
+              <p>{content.recoveryBody}</p>
+            </section>
+
+            <section className="case-split case-reveal">
+              <CaseImage src={recoveryStrainImageAssets.recoveryReadiness} alt="Recovery readiness score card" />
+              <div>
+                <h2>{content.sections.recoveryReadiness[0]}</h2>
+                <p>{content.sections.recoveryReadiness[1]}</p>
+              </div>
+            </section>
+
+            <section className="case-split case-reveal is-reversed">
+              <div>
+                <h2>{content.sections.recoveryGuidance[0]}</h2>
+                <p>{content.sections.recoveryGuidance[1]}</p>
+              </div>
+              <CaseImage src={recoveryStrainImageAssets.recoveryGuidance} alt="Recovery AI coaching guidance states" />
+            </section>
+
+            <section className="case-text-block case-reveal is-feature-heading recovery-stacked-visual">
+              <h2>{content.recoveryDriversTitle}</h2>
+              <CaseImage
+                src={recoveryStrainImageAssets.recoveryDrivers}
+                alt="Recovery driver charts for HRV, RHR, and sleep"
+              />
+              <p>{content.recoveryDriversBody}</p>
+            </section>
+
+            <section className="case-text-block case-reveal is-feature-heading recovery-stacked-visual is-narrow">
+              <h2>{content.sections.recoveryTrends[0]}</h2>
+              <CaseImage src={recoveryStrainImageAssets.recoveryTrends} alt="Recovery drivers and trend visualization" />
+              <p>{content.sections.recoveryTrends[1]}</p>
+            </section>
+
+            <section className="case-text-block case-reveal is-feature-heading">
+              <h2>{content.strainTitle}</h2>
+              <p>{content.strainBody}</p>
+            </section>
+
+            <section className="case-split case-reveal">
+              <CaseImage src={recoveryStrainImageAssets.strainReadiness} alt="Daily strain readiness card" />
+              <div>
+                <h2>{content.sections.strainReadiness[0]}</h2>
+                <p>{content.sections.strainReadiness[1]}</p>
+              </div>
+            </section>
+
+            <section className="case-split case-reveal is-reversed">
+              <div>
+                <h2>{content.sections.strainGuidance[0]}</h2>
+                <p>{content.sections.strainGuidance[1]}</p>
+              </div>
+              <CaseImage src={recoveryStrainImageAssets.strainGuidance} alt="Strain AI coaching guidance states" />
+            </section>
+
+            <section className="case-text-block case-reveal is-feature-heading recovery-stacked-visual">
+              <h2>{content.strainDriversTitle}</h2>
+              <CaseImage
+                src={recoveryStrainImageAssets.strainDrivers}
+                alt="Strain driver cards for zones, movement, and strength"
+              />
+              <p>{content.strainDriversBody}</p>
+            </section>
+
+            <section className="case-split case-reveal">
+              <CaseImage src={recoveryStrainImageAssets.activityLog} alt="Today’s activities list" />
+              <div>
+                <h2>{content.sections.activityLog[0]}</h2>
+                <p>{content.sections.activityLog[1]}</p>
+              </div>
+            </section>
+
+            <section className="case-split case-reveal is-reversed">
+              <div>
+                <h2>{content.sections.strainTrend[0]}</h2>
+                <p>{content.sections.strainTrend[1]}</p>
+              </div>
+              <CaseImage src={recoveryStrainImageAssets.strainTrend} alt="Weekly strain trend chart" />
+            </section>
+          </div>
+        </div>
+
+        <section className="case-text-block case-reveal">
+          <h2>{content.feedbackTitle}</h2>
+          <h3>{content.feedbackSubtitle}</h3>
+          <p>{content.feedbackBody}</p>
+        </section>
+        <CaseImage src={recoveryStrainImageAssets.feedbackLoop} alt="Recovery and strain feedback loop diagram" />
+
+        <section className="case-text-block case-reveal case-outcomes recovery-reflection">
+          <h2>{content.reflectionTitle}</h2>
+          <p>{content.reflectionBody}</p>
+          <h3>{content.reflectionEmphasis}</h3>
+          <p>{content.reflectionClosing}</p>
+        </section>
+
+        <section className="next-project case-reveal">
+          <h2>{content.nextProject}</h2>
+          <button className="next-project-card" onClick={onNextProject} type="button">
+            <img src={workAiCoach} alt="AI Coach project preview" loading="lazy" />
+            <span>
+              <strong>{content.nextProjectTitle}</strong>
+              <small>{content.nextProjectMeta}</small>
+            </span>
+          </button>
+        </section>
+      </div>
+      <Footer language={language} />
+    </section>
+  );
+}
+
 function WomensHealthPage({ language, onNextProject }: { language: Language; onNextProject: () => void }) {
   const content = womensHealthCaseCopy[language] as typeof womensHealthCaseCopy.en;
 
@@ -1452,6 +1779,128 @@ function CaseImage({ src, alt, className = "" }: { src: string; alt: string; cla
   );
 }
 
+const recoveryStrainCaseContent = {
+  label: "../Recovery & Strain",
+  overview: {
+    categoryLabel: "CATEGORY",
+    category: "Health / Wearables / Behaviors / Mobile",
+    yearLabel: "YEAR",
+    year: "2026",
+    roleLabel: "ROLE",
+    role: "Design Lead",
+    deliverablesLabel: "DELIVERABLES",
+    deliverables: "Strategy / UI / UX",
+    creditLabel: "CREDIT",
+    credit: "CUDIS",
+    metrics: ["75", "50%", "6.7"],
+    title: "Know When to Push, Know When to Rest",
+    body: "A personalized wellness system that transforms physiological signals into adaptive recovery guidance and sustainable training recommendations.",
+  },
+  problemTitle: "The Problem",
+  problemSubtitle: "Wellness data creates awareness - but not clarity.",
+  questions: [
+    "I slept badly. Should I still train?",
+    "Why is my recovery low today?",
+    "Am I actually overtraining?",
+  ],
+  painsLabel: "Key pains",
+  pains: [
+    ["Metric overload", "Recovery, HRV, strain, readiness, sleep - signals feel fragmented."],
+    ["Generic wellness advice", "Recommendations rarely adapt to physiological condition."],
+    ["Invisible fatigue", "Subtle physiological decline often goes unnoticed until burnout."],
+    ["Unsustainable routines", "Without contextual guidance, users struggle to balance."],
+  ],
+  principlesLabel: "Product principles",
+  principlesTitle: "Product Principles",
+  principles: [
+    ["Balance effort with recovery", "Strain and recovery should continuously inform one another."],
+    ["Translate signals into decisions", "Biometrics become meaningful only when users understand how to act on them."],
+    ["Reduce wellness uncertainty", "Support healthier choices through contextual guidance."],
+    ["Encourage sustainable habits", "Avoid optimization obsession and promote long-term consistency."],
+  ],
+  solutionTitle: "Solution Architecture",
+  solutionSubtitle: "Designing a recovery decision-making system",
+  solutionBody:
+    "The experience combines recovery signals, strain patterns, behavioral context, and AI-generated recommendations into a personalized daily wellness system.",
+  todayTitle: "Today’s View",
+  todayBody:
+    "The interface combines recovery signals and accumulated strain into a single daily readiness model.\n\nRather than treating exertion and recovery separately, the system dynamically balances both to recommend whether users should recover, maintain, or challenge themselves.",
+  todaySummary:
+    "Recovery and strain work as interconnected signals - helping users understand not only how their body feels today, but also how hard they should push.\n\nRather than surfacing isolated scores, the system combines recovery readiness, accumulated strain, sleep, HRV, and resting heart rate into a unified daily guidance model.\n\nThe goal was to help users answer a simple but emotionally important question: Should I push harder today - or recover?",
+  recoveryTitle: "Recovery State",
+  recoveryBody:
+    "Recovery reflects how prepared the body is to perform today.\n\nBy combining heart rate variability (HRV), resting heart rate (RHR), and sleep quality, the system translates physiological readiness into a clear recovery state - helping users decide whether to challenge, maintain, or prioritize recovery.\n\nRather than relying on intuition alone, users gain objective context into how their body is actually responding.",
+  recoveryDriversTitle: "Understanding what drives recovery",
+  recoveryDriversBody:
+    "Rather than surfacing a single recovery score without explanation, the system highlights the physiological signals contributing to recovery.\n\nEach signal is compared against the user’s 30-day baseline, helping users understand how behavioral patterns affect readiness over time.",
+  strainTitle: "Recovery State",
+  strainBody:
+    "Strain measures how much physiological stress the body absorbs throughout the day - helping users train harder when appropriate and recover before overtraining.",
+  strainDriversTitle: "Understanding what drives strain",
+  strainDriversBody:
+    "Rather than surfacing a single activity score, the system reveals the behaviors contributing to daily strain.\n\nHeart Rate Zones\nTime spent in higher cardiovascular zones contributes more heavily to strain. High-intensity effort produces disproportionately larger physiological load than low-intensity movement.\n\nStrength Training\nStrength sessions contribute muscular load beyond cardiovascular activity.\n\nDaily Movement\nSteps and general movement capture accumulated physical demand throughout the day.\n\nNot all movement is equal - higher intensity carries exponentially greater physiological cost.",
+  feedbackTitle: "Designing a Recovery & Strain Feedback Loop",
+  feedbackSubtitle: "Recovery determines readiness. Strain reflects effort.",
+  feedbackBody:
+    "Rather than treating recovery and activity as isolated metrics, the system creates a feedback loop between effort and readiness.",
+  reflectionTitle: "Reflection",
+  reflectionBody:
+    "Designing Recovery & Strain shifted my thinking about wellness products.\n\nI realized that health data alone rarely changes behavior. What users actually need is context - an explanation of",
+  reflectionEmphasis: "why something happened, what it means, and what to do next.",
+  reflectionClosing:
+    "This project also taught me how to design systems instead of isolated features: balancing physiological accuracy, emotional reassurance, and long-term habit formation within one experience.\n\nThe biggest challenge was turning invisible body signals into something people could trust and act on.",
+  nextProject: "Next Project",
+  nextProjectTitle: "AI COACH",
+  nextProjectMeta: "AI / Health / Wearables / Mobile",
+  sections: {
+    adaptive: [
+      "Adaptive States",
+      "The interface visually shifts based on recovery and strain readiness, helping users immediately understand whether to challenge, maintain, or prioritize recovery.",
+    ],
+    todayRecovery: [
+      "Recovery State",
+      "The recovery state helps users understand physiological readiness at a glance.\n\nInstead of interpreting fragmented signals like HRV or sleep independently, the system translates recovery context into clear readiness feedback - helping users decide whether to challenge, maintain, or prioritize recovery.",
+    ],
+    todayStrain: [
+      "Strain Recommendation",
+      "Daily strain recommendations dynamically adapt based on recovery condition and accumulated activity load.\n\nRather than promoting fixed exercise targets, the system adjusts suggested effort levels - helping users balance challenge with sustainable recovery.",
+    ],
+    recoveryReadiness: [
+      "Recovery Readiness",
+      "Instead of relying on subjective feelings alone, recovery readiness combines physiological signals into a single daily recovery score.\n\nBy integrating HRV, resting heart rate (RHR), and sleep quality, the system helps users quickly understand whether their body is ready to challenge, maintain, or prioritize recovery.",
+    ],
+    recoveryGuidance: [
+      "Translating recovery into guidance",
+      "Raw wellness metrics can feel abstract and emotionally difficult to interpret.\n\nTo reduce uncertainty, AI-generated insights explain why recovery changes and what users should do next - reframing physiological data into understandable, actionable coaching.",
+    ],
+    recoveryTrends: [
+      "Making recovery patterns visible",
+      "Recovery is rarely defined by a single day.\n\nTrend visualizations help users identify patterns across recovery, HRV, resting heart rate, and sleep quality - surfacing how lifestyle, training, and recovery behaviors influence physiological readiness over time.",
+    ],
+    strainReadiness: [
+      "Daily Strain Readiness",
+      "CUDIS Strain combines heart rate zones, strength training, and movement into a single 0-15 activity strain score.\n\nRecovery and strain work together as a feedback loop.\n\nHigher recovery expands recommended strain capacity, while lower recovery encourages lighter activity and active restoration.",
+    ],
+    strainGuidance: [
+      "Translating effort into coaching",
+      "Physical effort can feel difficult to evaluate objectively.\n\nTo reduce ambiguity, AI-generated insights explain where strain came from and how activity affects recovery demand.\n\nInstead of generic fitness advice, recommendations respond to actual physiological load.",
+    ],
+    activityLog: [
+      "Connecting strain to behavior",
+      "Activity logs make physiological load easier to interpret by connecting strain changes to real-world behaviors.\n\nRather than seeing abstract numbers alone, users can identify which workouts, movements, or routines contributed to their daily load.",
+    ],
+    strainTrend: [
+      "Building smarter training habits",
+      "Trend visualizations help users understand how effort accumulates over time.\n\nBy surfacing strain history and heart rate zone distribution, users can balance endurance, intensity, and recovery - avoiding both undertraining and burnout.",
+    ],
+  },
+};
+
+const recoveryStrainCaseCopy = {
+  en: recoveryStrainCaseContent,
+  zh: recoveryStrainCaseContent,
+} satisfies Record<Language, typeof recoveryStrainCaseContent>;
+
 const womensHealthCaseCopy = {
   en: {
     label: "../Women’s Health",
@@ -1660,6 +2109,12 @@ function App() {
     requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "smooth" }));
   };
 
+  const openRecoveryStrain = () => {
+    setView("recovery-strain");
+    window.history.pushState(null, "", "#/works/recovery-strain");
+    requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "smooth" }));
+  };
+
   useEffect(() => {
     if (view !== "home") {
       document.documentElement.style.setProperty("--scroll-progress", "0");
@@ -1709,10 +2164,22 @@ function App() {
         return;
       }
 
+      if (window.location.hash === "#/works/recovery-strain") {
+        setView("recovery-strain");
+        requestAnimationFrame(() => window.scrollTo({ top: 0 }));
+        return;
+      }
+
       if (window.location.hash === "#/about") {
         setView("about");
         requestAnimationFrame(() => window.scrollTo({ top: 0 }));
         return;
+      }
+
+      setView("home");
+
+      if (window.location.hash === "#works") {
+        pendingScrollRef.current = "works";
       }
     };
 
@@ -1784,6 +2251,11 @@ function App() {
       ) : view === "womens-health" ? (
         <WomensHealthPage
           language={language}
+          onNextProject={openRecoveryStrain}
+        />
+      ) : view === "recovery-strain" ? (
+        <RecoveryStrainPage
+          language={language}
           onNextProject={() => {
             setView("home");
             pendingScrollRef.current = "works";
@@ -1794,7 +2266,11 @@ function App() {
         <>
           <DesktopHomepage language={language} />
           <MobileHomepage language={language} />
-          <WorksPage language={language} onOpenWomensHealth={openWomensHealth} />
+          <WorksPage
+            language={language}
+            onOpenRecoveryStrain={openRecoveryStrain}
+            onOpenWomensHealth={openWomensHealth}
+          />
           <PlaygroundPage language={language} />
           <ContactPage language={language} onBackToTop={() => handleNavigate("home")} />
           <Footer language={language} />
